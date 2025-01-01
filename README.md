@@ -2,6 +2,9 @@
 
 This project contains a Python script (`redacted.py`) designed for personal use to automate the process of creating backups, compressing them, and sending notifications via Discord.
 
+> [!CAUTION]
+> NOT for production use
+
 ## Files
 
 - `redacted.py`: A example script created by me.
@@ -57,4 +60,3 @@ python redacted.py
 
 - Ensure all paths in the script are correctly set to your local environment.
 - The script assumes a certain directory structure and file presence. Adjust the paths as necessary.
-- NOT for production use
