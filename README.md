@@ -20,7 +20,7 @@ This project contains a Python script (`redacted.py`) designed for personal use 
 2. Ensure you have Python 3.x installed.
 3. Install the required Python libraries:
     ```sh
-    pip install requests
+    pip install requests subprocess
     ```
 4. Make sure `7-Zip` is installed and added to your system PATH.
 5. Create the necessary files and directories:
