@@ -4,33 +4,33 @@ import subprocess
 import secrets
 
 
-def create_cli(ignorefile, allowedfile, cli_string: str):
-    if os.path.exists(ignorefile) and os.path.exists(allowedfile):
-        with open(ignorefile, "r") as igfile:
-            with open(allowedfile, "r") as afile:
-                file = igfile.read().split("\n")
-                fileb = afile.read().split("\n")
+def create_cli(ignore_file, allowed_file, cli_string: str):
+    if os.path.exists(ignore_file) and os.path.exists(allowed_file):
+        with open(ignore_file, "r") as ignore_file_handle:
+            with open(allowed_file, "r") as allowed_file_handle:
+                ignore_list = ignore_file_handle.read().split("\n")
+                allowed_list = allowed_file_handle.read().split("\n")
 
                 buffer = ""
 
-                for a in fileb:
-                    buffer += f"-ir!{a} "
-                for b in file:
-                    buffer += f"-xr!{b} "
+                for allowed_item in allowed_list:
+                    buffer += f"-ir!{allowed_item} "
+                for ignore_item in ignore_list:
+                    buffer += f"-xr!{ignore_item} "
 
                 return cli_string.replace("/main/", buffer)
     else:
         return cli_string.replace("/main/", "")
 
 
-def save_text(input: str) -> str:
+def save_text(input_text: str) -> str:
     """
     Make it save for windows path
     """
-    input = str(input)  # just incase
+    input_text = str(input_text)  # just incase
 
-    input = (
-        input.replace("/", "_")
+    input_text = (
+        input_text.replace("/", "_")
         .replace("\\", "_")
         .replace(":", "_")
         .replace("*", "_")
@@ -41,31 +41,31 @@ def save_text(input: str) -> str:
         .replace("|", "_")
         .replace(" ", "-")
     )
-    return input
+    return input_text
 
 
-def gentoken(length: int = 16) -> str:
+def generate_token(length: int = 16) -> str:
     return str(secrets.token_hex(length))
 
 
-def create_info(dt: datetime, file_path, backupfile, password):
-    ended = datetime.now()
+def create_info(start_time: datetime, file_path, backup_file, password):
+    end_time = datetime.now()
     import getpass
 
     if os.path.exists(file_path):
         os.remove(file_path)
 
-    string = str(
-        f"Runned by: {getpass.getuser()}\nTime of backup init: {dt.isoformat()}\nEnded: {ended.isoformat()}\nTotal time: {ended - dt}"
+    info_string = str(
+        f"Runned by: {getpass.getuser()}\nTime of backup init: {start_time.isoformat()}\nEnded: {end_time.isoformat()}\nTotal time: {end_time - start_time}"
     )
 
-    open(file_path,"w").write(string)
+    open(file_path, "w").write(info_string)
 
     subprocess.run(
-        rf"7z a -p{password} {backupfile} {file_path}"
+        rf"7z a -p{password} {backup_file} {file_path}"
     )
 
     if os.path.exists(file_path):
         os.remove(file_path)
         
-    return string
+    return info_string
