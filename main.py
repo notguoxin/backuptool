@@ -69,4 +69,7 @@ def create_info(start_time: datetime, file_path, backup_file, password):
     return info_string
 
 def create_gitea_dump(gitea_folder_path: str,gitea_excutable_path: str, gitea_config_path: str, dump_output_filename: str):
+    if os.path.exists(gitea_folder_path+ "\\" + dump_output_filename):
+        os.remove(gitea_folder_path+ "\\" + dump_output_filename)
+        
     subprocess.run(f"{gitea_excutable_path} dump --config {gitea_config_path} --quiet --database sqlite3 --work-path {gitea_folder_path} --type zip --file {dump_output_filename}", cwd=gitea_folder_path)
