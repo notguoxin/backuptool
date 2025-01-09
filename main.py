@@ -61,11 +61,12 @@ def create_info(start_time: datetime, file_path, backup_file, password):
 
     open(file_path, "w").write(info_string)
 
-    subprocess.run(
-        rf"7z a -p{password} {backup_file} {file_path}"
-    )
+    subprocess.run(rf"7z a -p{password} {backup_file} {file_path}")
 
     if os.path.exists(file_path):
         os.remove(file_path)
-        
+
     return info_string
+
+def create_gitea_dump(gitea_folder_path: str,gitea_excutable_path: str, gitea_config_path: str, dump_output_filename: str):
+    subprocess.run(f"{gitea_excutable_path} dump --config {gitea_config_path} --quiet --database sqlite3 --work-path {gitea_folder_path} --type zip --file {dump_output_filename}", cwd=gitea_folder_path)
